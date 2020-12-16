@@ -2,6 +2,7 @@ package com.bryan;
 
 import java.util.Random;
 
+
 public class NumberGeneratorImpl implements  NumberGenerator{
 
 
