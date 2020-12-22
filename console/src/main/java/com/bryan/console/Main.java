@@ -1,5 +1,8 @@
-package com.bryan;
+package com.bryan.console;
 
+import com.bryan.config.AppConfig;
+import com.bryan.MessageGenerator;
+import com.bryan.NumberGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -24,17 +27,14 @@ public class Main {
         log.info("number = {}", number);
 
         //get game bean from the context (container)
-        Game game = context.getBean(Game.class);
+        MessageGenerator messageGenerator =
+                context.getBean(MessageGenerator.class);
 
-        MessageGenerator messageGenerator = context.getBean(MessageGenerator.class);
+        log.info("getMainMessage = {}", messageGenerator.getMainMessage());
+        log.info("getResultMessage = {}", messageGenerator.getResultMessage());
 
-        messageGenerator.getMainMessage();
-        messageGenerator.getResultMessage();
 
-        //call reset method
-//        game.reset();
-
-        // close context
+        //== close context ==
         context.close();
     }
 }

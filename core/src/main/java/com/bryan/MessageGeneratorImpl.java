@@ -1,23 +1,59 @@
 package com.bryan;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
 
 public class MessageGeneratorImpl implements MessageGenerator{
 
+    //== constants ==
+    Logger log = LoggerFactory.getLogger(MessageGeneratorImpl.class);
+
+    //== fields ==
     @Autowired
-    Game game;
+    private Game game;
 
-    int guessCount;
 
+    //== init ==
+    @PostConstruct
+    public void postConstruct(){
+        log.info("getMainMessage() {}", game);
+    }
+
+
+    //== public methods
     @Override
     public String getMainMessage() {
-        System.out.println("getMainMessage()");
-        return "getMainMessage";
+          return "Number is between " +
+                  game.getSmallest() +
+                  " and " +
+                  game.getBiggest() +
+                  ", can you guess it";
+
     }
 
     @Override
     public String getResultMessage() {
-        System.out.println("getResultMessage()");
-        return "getResultMessage()";
+        if(game.isGameWon()){
+            return "You guessed it! The number was " + game.getNumber();
+        }else if(game.isGameLost()){
+            return "you lost. The number was " + game.getNumber();
+        }else if(!game.isValidNumberRange()){
+            return "Invalid number range";
+        }else if(game.getRemainingGuesses() == game.getGuessCount()){
+            return "What is your first guess?";
+        }else{
+            String direction = "Lower";
+            if(game.getGuess() < game.getNumber()){
+                direction = "Higher";
+            }
+
+            return direction + "! You have " + game.getRemainingGuesses() + " guesses left";
+        }
+
     }
+
+
 }
