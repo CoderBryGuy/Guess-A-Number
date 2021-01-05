@@ -4,12 +4,11 @@ import com.bryan.GuessCount;
 import com.bryan.MaxNumber;
 import com.bryan.MinNumber;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 
 @Configuration
 @PropertySource("classpath:config/game.properties")
+@ComponentScan(basePackages = "com.bryan")
 public class GameConfig {
 
     //== fields ==
@@ -21,6 +20,8 @@ public class GameConfig {
 
     @Value(("${game.guessCount:5}"))
     private int guessCount;
+
+//    private NumberGenerator numberGenerator;
 
     // == beans ==
     @Bean
@@ -40,6 +41,12 @@ public class GameConfig {
     int guessCount(){
         return guessCount;
     }
+
+//    @Bean
+//    NumberGenerator numberGenerator(){
+//        return numberGenerator;
+//    }
+
 
 
 }

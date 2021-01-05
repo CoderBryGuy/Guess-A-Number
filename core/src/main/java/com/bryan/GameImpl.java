@@ -3,11 +3,12 @@ package com.bryan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-
+@Component
 public class GameImpl implements Game{
 
 
@@ -15,12 +16,14 @@ public class GameImpl implements Game{
     private static final Logger log = LoggerFactory.getLogger(GameImpl.class);
 
     // == fields ==
-    @Autowired
     private NumberGenerator numberGenerator;
+    private int guessCount;
 
     @Autowired
-    @GuessCount
-    private int guessCount;
+    public GameImpl(NumberGenerator numberGenerator, @GuessCount int guessCount) {
+        this.numberGenerator = numberGenerator;
+        this.guessCount = guessCount;
+    }
 
     private int number;
     private int guess;
@@ -33,8 +36,7 @@ public class GameImpl implements Game{
     @PostConstruct
     @Override
     public void reset() {
-        smallest = 0;
-        guess = 0;
+        guess = numberGenerator.getMinNumber();
         remainingGuesses = guessCount;
         biggest = numberGenerator.getMaxNumber();
         smallest = numberGenerator.getMinNumber();
